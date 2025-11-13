@@ -5,7 +5,7 @@ available all within the game's base executable. In addition, an interactive scr
 environment is provided by the newLISP language for easy extensibility without the need
 for recompilation.
 
-[Play Melty Blood](https://play.meltyblood.club/) | [newLisp](http://www.newlisp.org)
+[Play Melty Blood](https://play.meltyblood.club/) | [newLISP](http://www.newlisp.org)
 
 ## Installation
 
@@ -33,4 +33,6 @@ open MBAACC with everything preloaded.
 
 This project is dependent only on MinGW32. No UCRT or MSVC binaries or tools are used in the
 development or compilation of Daybreak. Installing [MSYS2](https://www.msys2.org/)
-and the x86 gcc/g++ toolchain are the only requirements to get it working properly.
+and the x86 gcc/g++ toolchain are the only requirements to get it working properly. 
+
+*The newLISP server provided in Daybreak listens to `localhost:8080`, and is currently hardcoded to listen here.*
