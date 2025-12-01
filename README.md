@@ -19,7 +19,7 @@ for recompilation.
 
 ### From Releases Page
 
-Download `daybreak_vX.X.X.zip` and unzip it inside of a pre-existing MBAA folder. `daybreak.exe` and `lipwinpthread-1.dll` 
+Download `daybreak_vX.X.X.zip` and unzip it inside of a pre-existing MBAA folder. `daybreak.exe` and `libwinpthread-1.dll` 
 should be in the same folder as `MBAA.exe`, and everything else should be inside the `daybreak/` folder.
 
 ## Usage
