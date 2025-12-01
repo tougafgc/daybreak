@@ -1,0 +1,1538 @@
+	.file	"<stdin>"
+	.text
+	.section	.text$__is_constant_evaluated,"x"
+	.linkonce discard
+	.globl	__is_constant_evaluated
+	.def	__is_constant_evaluated;	.scl	2;	.type	32;	.endef
+	.seh_proc	__is_constant_evaluated
+__is_constant_evaluated:
+.LFB400:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movl	$0, %eax
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZNSt11char_traitsIcE6lengthEPKc,"x"
+	.linkonce discard
+	.globl	_ZNSt11char_traitsIcE6lengthEPKc
+	.def	_ZNSt11char_traitsIcE6lengthEPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZNSt11char_traitsIcE6lengthEPKc
+_ZNSt11char_traitsIcE6lengthEPKc:
+.LFB5761:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	call	__is_constant_evaluated
+	testb	%al, %al
+	je	.L4
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc
+	jmp	.L5
+.L4:
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	strlen
+	nop
+.L5:
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section .rdata,"dr"
+.LC0:
+	.ascii "Error!\0"
+	.section	.text$_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,"x"
+	.linkonce discard
+	.globl	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+	.def	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE:
+.LFB9053:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv
+	movl	$0, %r9d
+	leaq	.LC0(%rip), %r8
+	movq	%rax, %rdx
+	movl	$0, %ecx
+	movq	__imp_MessageBoxA(%rip), %rax
+	call	*%rax
+	movl	$1, %ecx
+	call	exit
+	nop
+	.seh_endproc
+	.text
+	.globl	_Z14file_readASCIIPv
+	.def	_Z14file_readASCIIPv;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z14file_readASCIIPv
+_Z14file_readASCIIPv:
+.LFB9282:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rdx
+	leaq	-5(%rbp), %rax
+	movq	%rdx, %r9
+	movl	$1, %r8d
+	movl	$1, %edx
+	movq	%rax, %rcx
+	call	fread
+	movl	%eax, -4(%rbp)
+	cmpl	$0, -4(%rbp)
+	setg	%al
+	testb	%al, %al
+	je	.L8
+	movzbl	-5(%rbp), %eax
+	movsbq	%al, %rax
+	jmp	.L10
+.L8:
+	movl	$0, %eax
+.L10:
+	addq	$48, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section .rdata,"dr"
+.LC1:
+	.ascii "rb\0"
+.LC2:
+	.ascii "Cannot load file!\0"
+	.text
+	.globl	_Z12compile_fileP4SQVMPKc
+	.def	_Z12compile_fileP4SQVMPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z12compile_fileP4SQVMPKc
+_Z12compile_fileP4SQVMPKc:
+.LFB9283:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$120, %rsp
+	.seh_stackalloc	120
+	leaq	112(%rsp), %rbp
+	.seh_setframe	%rbp, 112
+	.seh_endprologue
+	movq	%rcx, 32(%rbp)
+	movq	%rdx, 40(%rbp)
+	movq	40(%rbp), %rax
+	leaq	.LC1(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB0:
+	call	fopen
+	movq	%rax, -8(%rbp)
+	cmpq	$0, -8(%rbp)
+	je	.L12
+	movq	40(%rbp), %rcx
+	movq	-8(%rbp), %rdx
+	movq	32(%rbp), %rax
+	movq	$1, 32(%rsp)
+	movq	%rcx, %r9
+	movq	%rdx, %r8
+	leaq	_Z14file_readASCIIPv(%rip), %rdx
+	movq	%rax, %rcx
+	call	sq_compile
+	movq	-8(%rbp), %rax
+	movq	%rax, %rcx
+	call	fclose
+	movq	32(%rbp), %rax
+	movq	%rax, %rcx
+	call	sq_pushroottable
+	movq	32(%rbp), %rax
+	movl	$1, %r9d
+	movl	$0, %r8d
+	movl	$1, %edx
+	movq	%rax, %rcx
+	call	sq_call
+.LEHE0:
+	shrq	$63, %rax
+	testb	%al, %al
+	je	.L15
+	jmp	.L20
+.L12:
+	movl	$0, %eax
+	jmp	.L21
+.L20:
+	leaq	-17(%rbp), %rax
+	movq	%rax, -16(%rbp)
+	nop
+	nop
+	leaq	-17(%rbp), %rdx
+	leaq	-64(%rbp), %rax
+	movq	%rdx, %r8
+	leaq	.LC2(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB1:
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+.LEHE1:
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rcx
+.LEHB2:
+	call	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+.LEHE2:
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-17(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movl	$0, %eax
+	jmp	.L21
+.L15:
+	movl	$1, %eax
+	jmp	.L21
+.L19:
+	movq	%rax, %rbx
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L17
+.L18:
+	movq	%rax, %rbx
+.L17:
+	leaq	-17(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+.LEHB3:
+	call	_Unwind_Resume
+.LEHE3:
+.L21:
+	addq	$120, %rsp
+	popq	%rbx
+	popq	%rbp
+	ret
+	.def	__gxx_personality_seh0;	.scl	2;	.type	32;	.endef
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9283:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9283-.LLSDACSB9283
+.LLSDACSB9283:
+	.uleb128 .LEHB0-.LFB9283
+	.uleb128 .LEHE0-.LEHB0
+	.uleb128 0
+	.uleb128 0
+	.uleb128 .LEHB1-.LFB9283
+	.uleb128 .LEHE1-.LEHB1
+	.uleb128 .L18-.LFB9283
+	.uleb128 0
+	.uleb128 .LEHB2-.LFB9283
+	.uleb128 .LEHE2-.LEHB2
+	.uleb128 .L19-.LFB9283
+	.uleb128 0
+	.uleb128 .LEHB3-.LFB9283
+	.uleb128 .LEHE3-.LEHB3
+	.uleb128 0
+	.uleb128 0
+.LLSDACSE9283:
+	.text
+	.seh_endproc
+	.globl	_Z13sq_messageboxP4SQVM
+	.def	_Z13sq_messageboxP4SQVM;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z13sq_messageboxP4SQVM
+_Z13sq_messageboxP4SQVM:
+.LFB9284:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	leaq	-8(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movq	%rdx, %r8
+	movl	$2, %edx
+	movq	%rax, %rcx
+	call	sq_getstring
+	leaq	-16(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movq	%rdx, %r8
+	movl	$3, %edx
+	movq	%rax, %rcx
+	call	sq_getstring
+	movq	-16(%rbp), %rdx
+	movq	-8(%rbp), %rax
+	movl	$0, %r9d
+	movq	%rdx, %r8
+	movq	%rax, %rdx
+	movl	$0, %ecx
+	movq	__imp_MessageBoxA(%rip), %rax
+	call	*%rax
+	movl	$0, %eax
+	addq	$48, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.globl	_Z11register_fxP4SQVMPFxS0_EPKc
+	.def	_Z11register_fxP4SQVMPFxS0_EPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z11register_fxP4SQVMPFxS0_EPKc
+_Z11register_fxP4SQVMPFxS0_EPKc:
+.LFB9285:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	%r8, 32(%rbp)
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	sq_pushroottable
+	movq	32(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movq	$-1, %r8
+	movq	%rax, %rcx
+	call	sq_pushstring
+	movq	24(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movl	$0, %r8d
+	movq	%rax, %rcx
+	call	sq_newclosure
+	movq	16(%rbp), %rax
+	movl	$0, %r8d
+	movq	$-3, %rdx
+	movq	%rax, %rcx
+	call	sq_newslot
+	movq	16(%rbp), %rax
+	movl	$1, %edx
+	movq	%rax, %rcx
+	call	sq_pop
+	nop
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section .rdata,"dr"
+.LC3:
+	.ascii "MessageBox\0"
+	.text
+	.globl	_Z12register_allP4SQVM
+	.def	_Z12register_allP4SQVM;	.scl	2;	.type	32;	.endef
+	.seh_proc	_Z12register_allP4SQVM
+_Z12register_allP4SQVM:
+.LFB9286:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	leaq	.LC3(%rip), %r8
+	leaq	_Z13sq_messageboxP4SQVM(%rip), %rdx
+	movq	%rax, %rcx
+	call	_Z11register_fxP4SQVMPFxS0_EPKc
+	nop
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.align 2
+	.globl	_ZN16SquirrelCompilerC2Ev
+	.def	_ZN16SquirrelCompilerC2Ev;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompilerC2Ev
+_ZN16SquirrelCompilerC2Ev:
+.LFB9288:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	movl	$1024, (%rax)
+	movq	16(%rbp), %rax
+	movl	$0, 16(%rax)
+	nop
+	popq	%rbp
+	ret
+	.seh_endproc
+	.globl	_ZN16SquirrelCompilerC1Ev
+	.def	_ZN16SquirrelCompilerC1Ev;	.scl	2;	.type	32;	.endef
+	.set	_ZN16SquirrelCompilerC1Ev,_ZN16SquirrelCompilerC2Ev
+	.section .rdata,"dr"
+.LC4:
+	.ascii "Unable to compile \0"
+.LC5:
+	.ascii "!\0"
+	.text
+	.align 2
+	.globl	_ZN16SquirrelCompiler4initEPKc
+	.def	_ZN16SquirrelCompiler4initEPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompiler4initEPKc
+_ZN16SquirrelCompiler4initEPKc:
+.LFB9290:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$152, %rsp
+	.seh_stackalloc	152
+	leaq	144(%rsp), %rbp
+	.seh_setframe	%rbp, 144
+	.seh_endprologue
+	movq	%rcx, 32(%rbp)
+	movq	%rdx, 40(%rbp)
+	movq	32(%rbp), %rax
+	movl	(%rax), %eax
+	cltq
+	movq	%rax, %rcx
+.LEHB4:
+	call	sq_open
+	movq	32(%rbp), %rdx
+	movq	%rax, 8(%rdx)
+	movq	32(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	%rax, %rcx
+	call	_Z12register_allP4SQVM
+	movq	32(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	40(%rbp), %rdx
+	movq	%rax, %rcx
+	call	_Z12compile_fileP4SQVMPKc
+.LEHE4:
+	testl	%eax, %eax
+	sete	%al
+	testb	%al, %al
+	je	.L37
+	leaq	-9(%rbp), %rax
+	movq	%rax, -8(%rbp)
+	nop
+	nop
+	leaq	-9(%rbp), %rcx
+	movq	40(%rbp), %rdx
+	leaq	-48(%rbp), %rax
+	movq	%rcx, %r8
+	movq	%rax, %rcx
+.LEHB5:
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+.LEHE5:
+	leaq	-80(%rbp), %rax
+	leaq	-48(%rbp), %rdx
+	movq	%rdx, %r8
+	leaq	.LC4(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB6:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+.LEHE6:
+	leaq	-112(%rbp), %rax
+	leaq	-80(%rbp), %rdx
+	leaq	.LC5(%rip), %r8
+	movq	%rax, %rcx
+.LEHB7:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+.LEHE7:
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+.LEHB8:
+	call	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+.LEHE8:
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-9(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	jmp	.L37
+.L36:
+	movq	%rax, %rbx
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L30
+.L35:
+	movq	%rax, %rbx
+.L30:
+	leaq	-80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L31
+.L34:
+	movq	%rax, %rbx
+.L31:
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L32
+.L33:
+	movq	%rax, %rbx
+.L32:
+	leaq	-9(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+.LEHB9:
+	call	_Unwind_Resume
+.LEHE9:
+.L37:
+	nop
+	addq	$152, %rsp
+	popq	%rbx
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9290:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9290-.LLSDACSB9290
+.LLSDACSB9290:
+	.uleb128 .LEHB4-.LFB9290
+	.uleb128 .LEHE4-.LEHB4
+	.uleb128 0
+	.uleb128 0
+	.uleb128 .LEHB5-.LFB9290
+	.uleb128 .LEHE5-.LEHB5
+	.uleb128 .L33-.LFB9290
+	.uleb128 0
+	.uleb128 .LEHB6-.LFB9290
+	.uleb128 .LEHE6-.LEHB6
+	.uleb128 .L34-.LFB9290
+	.uleb128 0
+	.uleb128 .LEHB7-.LFB9290
+	.uleb128 .LEHE7-.LEHB7
+	.uleb128 .L35-.LFB9290
+	.uleb128 0
+	.uleb128 .LEHB8-.LFB9290
+	.uleb128 .LEHE8-.LEHB8
+	.uleb128 .L36-.LFB9290
+	.uleb128 0
+	.uleb128 .LEHB9-.LFB9290
+	.uleb128 .LEHE9-.LEHB9
+	.uleb128 0
+	.uleb128 0
+.LLSDACSE9290:
+	.text
+	.seh_endproc
+	.align 2
+	.globl	_ZN16SquirrelCompiler4initEiPKc
+	.def	_ZN16SquirrelCompiler4initEiPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompiler4initEiPKc
+_ZN16SquirrelCompiler4initEiPKc:
+.LFB9291:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$152, %rsp
+	.seh_stackalloc	152
+	leaq	144(%rsp), %rbp
+	.seh_setframe	%rbp, 144
+	.seh_endprologue
+	movq	%rcx, 32(%rbp)
+	movl	%edx, 40(%rbp)
+	movq	%r8, 48(%rbp)
+	movl	40(%rbp), %eax
+	cltq
+	movq	%rax, %rcx
+.LEHB10:
+	call	sq_open
+	movq	32(%rbp), %rdx
+	movq	%rax, 8(%rdx)
+	movq	32(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	%rax, %rcx
+	call	_Z12register_allP4SQVM
+	movq	32(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	48(%rbp), %rdx
+	movq	%rax, %rcx
+	call	_Z12compile_fileP4SQVMPKc
+.LEHE10:
+	testl	%eax, %eax
+	sete	%al
+	testb	%al, %al
+	je	.L48
+	leaq	-9(%rbp), %rax
+	movq	%rax, -8(%rbp)
+	nop
+	nop
+	leaq	-9(%rbp), %rcx
+	movq	48(%rbp), %rdx
+	leaq	-48(%rbp), %rax
+	movq	%rcx, %r8
+	movq	%rax, %rcx
+.LEHB11:
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+.LEHE11:
+	leaq	-80(%rbp), %rax
+	leaq	-48(%rbp), %rdx
+	movq	%rdx, %r8
+	leaq	.LC4(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB12:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+.LEHE12:
+	leaq	-112(%rbp), %rax
+	leaq	-80(%rbp), %rdx
+	leaq	.LC5(%rip), %r8
+	movq	%rax, %rcx
+.LEHB13:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+.LEHE13:
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+.LEHB14:
+	call	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+.LEHE14:
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-9(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	jmp	.L48
+.L47:
+	movq	%rax, %rbx
+	leaq	-112(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L41
+.L46:
+	movq	%rax, %rbx
+.L41:
+	leaq	-80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L42
+.L45:
+	movq	%rax, %rbx
+.L42:
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L43
+.L44:
+	movq	%rax, %rbx
+.L43:
+	leaq	-9(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+.LEHB15:
+	call	_Unwind_Resume
+.LEHE15:
+.L48:
+	nop
+	addq	$152, %rsp
+	popq	%rbx
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9291:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9291-.LLSDACSB9291
+.LLSDACSB9291:
+	.uleb128 .LEHB10-.LFB9291
+	.uleb128 .LEHE10-.LEHB10
+	.uleb128 0
+	.uleb128 0
+	.uleb128 .LEHB11-.LFB9291
+	.uleb128 .LEHE11-.LEHB11
+	.uleb128 .L44-.LFB9291
+	.uleb128 0
+	.uleb128 .LEHB12-.LFB9291
+	.uleb128 .LEHE12-.LEHB12
+	.uleb128 .L45-.LFB9291
+	.uleb128 0
+	.uleb128 .LEHB13-.LFB9291
+	.uleb128 .LEHE13-.LEHB13
+	.uleb128 .L46-.LFB9291
+	.uleb128 0
+	.uleb128 .LEHB14-.LFB9291
+	.uleb128 .LEHE14-.LEHB14
+	.uleb128 .L47-.LFB9291
+	.uleb128 0
+	.uleb128 .LEHB15-.LFB9291
+	.uleb128 .LEHE15-.LEHB15
+	.uleb128 0
+	.uleb128 0
+.LLSDACSE9291:
+	.text
+	.seh_endproc
+	.align 2
+	.globl	_ZN16SquirrelCompilerD2Ev
+	.def	_ZN16SquirrelCompilerD2Ev;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompilerD2Ev
+_ZN16SquirrelCompilerD2Ev:
+.LFB9293:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	%rax, %rcx
+	call	sq_close
+	nop
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9293:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9293-.LLSDACSB9293
+.LLSDACSB9293:
+.LLSDACSE9293:
+	.text
+	.seh_endproc
+	.globl	_ZN16SquirrelCompilerD1Ev
+	.def	_ZN16SquirrelCompilerD1Ev;	.scl	2;	.type	32;	.endef
+	.set	_ZN16SquirrelCompilerD1Ev,_ZN16SquirrelCompilerD2Ev
+	.section .rdata,"dr"
+.LC6:
+	.ascii "Not found, autorun.nut::\0"
+.LC7:
+	.ascii "Cannot run, autorun.nut::\0"
+	.text
+	.align 2
+	.globl	_ZN16SquirrelCompiler4callEPKc
+	.def	_ZN16SquirrelCompiler4callEPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompiler4callEPKc
+_ZN16SquirrelCompiler4callEPKc:
+.LFB9295:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$280, %rsp
+	.seh_stackalloc	280
+	leaq	128(%rsp), %rbp
+	.seh_setframe	%rbp, 128
+	.seh_endprologue
+	movq	%rcx, 176(%rbp)
+	movq	%rdx, 184(%rbp)
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	%rax, %rcx
+.LEHB16:
+	call	sq_pushroottable
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	184(%rbp), %rdx
+	movq	$-1, %r8
+	movq	%rax, %rcx
+	call	sq_pushstring
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	$-2, %rdx
+	movq	%rax, %rcx
+	call	sq_get
+	shrq	$63, %rax
+	testb	%al, %al
+	je	.L51
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movl	$1, %edx
+	movq	%rax, %rcx
+	call	sq_pop
+.LEHE16:
+	leaq	15(%rbp), %rax
+	movq	%rax, 136(%rbp)
+	nop
+	nop
+	leaq	15(%rbp), %rcx
+	movq	184(%rbp), %rdx
+	leaq	-32(%rbp), %rax
+	movq	%rcx, %r8
+	movq	%rax, %rcx
+.LEHB17:
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+.LEHE17:
+	leaq	-64(%rbp), %rax
+	leaq	-32(%rbp), %rdx
+	movq	%rdx, %r8
+	leaq	.LC6(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB18:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+.LEHE18:
+	leaq	-96(%rbp), %rax
+	leaq	-64(%rbp), %rdx
+	leaq	.LC5(%rip), %r8
+	movq	%rax, %rcx
+.LEHB19:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+.LEHE19:
+	leaq	-96(%rbp), %rax
+	movq	%rax, %rcx
+.LEHB20:
+	call	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+.LEHE20:
+	leaq	-96(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	-32(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	15(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	jmp	.L50
+.L51:
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movq	%rax, %rcx
+.LEHB21:
+	call	sq_pushroottable
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movl	$1, %r9d
+	movl	$0, %r8d
+	movl	$1, %edx
+	movq	%rax, %rcx
+	call	sq_call
+.LEHE21:
+	shrq	$63, %rax
+	testb	%al, %al
+	je	.L53
+	leaq	127(%rbp), %rax
+	movq	%rax, 128(%rbp)
+	nop
+	nop
+	leaq	127(%rbp), %rcx
+	movq	184(%rbp), %rdx
+	leaq	80(%rbp), %rax
+	movq	%rcx, %r8
+	movq	%rax, %rcx
+.LEHB22:
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+.LEHE22:
+	leaq	48(%rbp), %rax
+	leaq	80(%rbp), %rdx
+	movq	%rdx, %r8
+	leaq	.LC7(%rip), %rdx
+	movq	%rax, %rcx
+.LEHB23:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+.LEHE23:
+	leaq	16(%rbp), %rax
+	leaq	48(%rbp), %rdx
+	leaq	.LC5(%rip), %r8
+	movq	%rax, %rcx
+.LEHB24:
+	call	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+.LEHE24:
+	leaq	16(%rbp), %rax
+	movq	%rax, %rcx
+.LEHB25:
+	call	_Z9gui_errorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+.LEHE25:
+	leaq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leaq	127(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	jmp	.L50
+.L53:
+	movq	176(%rbp), %rax
+	movq	8(%rax), %rax
+	movl	$1, %edx
+	movq	%rax, %rcx
+.LEHB26:
+	call	sq_pop
+	jmp	.L50
+.L65:
+	movq	%rax, %rbx
+	leaq	-96(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L55
+.L64:
+	movq	%rax, %rbx
+.L55:
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L56
+.L63:
+	movq	%rax, %rbx
+.L56:
+	leaq	-32(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L57
+.L62:
+	movq	%rax, %rbx
+.L57:
+	leaq	15(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+	call	_Unwind_Resume
+.L69:
+	movq	%rax, %rbx
+	leaq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L59
+.L68:
+	movq	%rax, %rbx
+.L59:
+	leaq	48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L60
+.L67:
+	movq	%rax, %rbx
+.L60:
+	leaq	80(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	.L61
+.L66:
+	movq	%rax, %rbx
+.L61:
+	leaq	127(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+	call	_Unwind_Resume
+	nop
+.LEHE26:
+.L50:
+	addq	$280, %rsp
+	popq	%rbx
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9295:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9295-.LLSDACSB9295
+.LLSDACSB9295:
+	.uleb128 .LEHB16-.LFB9295
+	.uleb128 .LEHE16-.LEHB16
+	.uleb128 0
+	.uleb128 0
+	.uleb128 .LEHB17-.LFB9295
+	.uleb128 .LEHE17-.LEHB17
+	.uleb128 .L62-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB18-.LFB9295
+	.uleb128 .LEHE18-.LEHB18
+	.uleb128 .L63-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB19-.LFB9295
+	.uleb128 .LEHE19-.LEHB19
+	.uleb128 .L64-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB20-.LFB9295
+	.uleb128 .LEHE20-.LEHB20
+	.uleb128 .L65-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB21-.LFB9295
+	.uleb128 .LEHE21-.LEHB21
+	.uleb128 0
+	.uleb128 0
+	.uleb128 .LEHB22-.LFB9295
+	.uleb128 .LEHE22-.LEHB22
+	.uleb128 .L66-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB23-.LFB9295
+	.uleb128 .LEHE23-.LEHB23
+	.uleb128 .L67-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB24-.LFB9295
+	.uleb128 .LEHE24-.LEHB24
+	.uleb128 .L68-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB25-.LFB9295
+	.uleb128 .LEHE25-.LEHB25
+	.uleb128 .L69-.LFB9295
+	.uleb128 0
+	.uleb128 .LEHB26-.LFB9295
+	.uleb128 .LEHE26-.LEHB26
+	.uleb128 0
+	.uleb128 0
+.LLSDACSE9295:
+	.text
+	.seh_endproc
+	.section .rdata,"dr"
+.LC8:
+	.ascii "Squirrel\0"
+.LC9:
+	.ascii "Testing Squirrel Menu\0"
+	.text
+	.align 2
+	.globl	_ZN16SquirrelCompiler9draw_menuEv
+	.def	_ZN16SquirrelCompiler9draw_menuEv;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN16SquirrelCompiler9draw_menuEv
+_ZN16SquirrelCompiler9draw_menuEv:
+.LFB9296:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movl	$1, %r8d
+	movl	$0, %edx
+	leaq	.LC8(%rip), %rax
+	movq	%rax, %rcx
+	call	_ZN5ImGui5BeginEPKcPbi
+	leaq	.LC9(%rip), %rax
+	movq	%rax, %rcx
+	call	_ZN5ImGui4TextEPKcz
+	call	_ZN5ImGui3EndEv
+	nop
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc
+	.def	_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc
+_ZN9__gnu_cxx11char_traitsIcE6lengthEPKc:
+.LFB9297:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	$0, -8(%rbp)
+	jmp	.L72
+.L73:
+	addq	$1, -8(%rbp)
+.L72:
+	movb	$0, -9(%rbp)
+	movq	16(%rbp), %rdx
+	movq	-8(%rbp), %rax
+	leaq	(%rdx,%rax), %rcx
+	leaq	-9(%rbp), %rax
+	movq	%rax, %rdx
+	call	_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_
+	xorl	$1, %eax
+	testb	%al, %al
+	jne	.L73
+	movq	-8(%rbp), %rax
+	addq	$48, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev:
+.LFB9407:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	movq	%rax, -8(%rbp)
+	movq	-8(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt15__new_allocatorIcED2Ev
+	nop
+	nop
+	addq	$48, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_,"x"
+	.linkonce discard
+	.globl	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+	.def	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_
+_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_:
+.LFB9547:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	%r8, 32(%rbp)
+	movq	24(%rbp), %rdx
+	movq	32(%rbp), %rax
+	movq	%rdx, %r8
+	movl	$0, %edx
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE6insertEmPKc
+	movq	%rax, %rcx
+	call	_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_
+	movq	%rax, %rdx
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EOS4_
+	movq	16(%rbp), %rax
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_,"x"
+	.linkonce discard
+	.globl	_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_
+	.def	_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_
+_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_:
+.LFB9604:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section .rdata,"dr"
+	.align 8
+.LC10:
+	.ascii "basic_string: construction from null is not valid\0"
+	.section	.text$_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_:
+.LFB9624:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rsi
+	.seh_pushreg	%rsi
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	leaq	48(%rsp), %rbp
+	.seh_setframe	%rbp, 48
+	.seh_endprologue
+	movq	%rcx, 32(%rbp)
+	movq	%rdx, 40(%rbp)
+	movq	%r8, 48(%rbp)
+	movq	32(%rbp), %rbx
+	movq	32(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_M_local_dataEv
+	movq	48(%rbp), %rdx
+	movq	%rdx, %r8
+	movq	%rax, %rdx
+	movq	%rbx, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderC1EPcRKS3_
+	cmpq	$0, 40(%rbp)
+	jne	.L81
+	leaq	.LC10(%rip), %rax
+	movq	%rax, %rcx
+.LEHB27:
+	call	_ZSt19__throw_logic_errorPKc
+.L81:
+	movq	40(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt11char_traitsIcE6lengthEPKc
+	movq	40(%rbp), %rdx
+	addq	%rdx, %rax
+	movq	%rax, -8(%rbp)
+	movq	-8(%rbp), %rcx
+	movq	40(%rbp), %rdx
+	movq	32(%rbp), %rax
+	movl	%esi, %r9d
+	movq	%rcx, %r8
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag
+.LEHE27:
+	jmp	.L84
+.L83:
+	movq	%rax, %rbx
+	movq	32(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderD1Ev
+	movq	%rbx, %rax
+	movq	%rax, %rcx
+.LEHB28:
+	call	_Unwind_Resume
+	nop
+.LEHE28:
+.L84:
+	addq	$48, %rsp
+	popq	%rbx
+	popq	%rsi
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9624:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9624-.LLSDACSB9624
+.LLSDACSB9624:
+	.uleb128 .LEHB27-.LFB9624
+	.uleb128 .LEHE27-.LEHB27
+	.uleb128 .L83-.LFB9624
+	.uleb128 0
+	.uleb128 .LEHB28-.LFB9624
+	.uleb128 .LEHE28-.LEHB28
+	.uleb128 0
+	.uleb128 0
+.LLSDACSE9624:
+	.section	.text$_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1IS3_EEPKcRKS3_,"x"
+	.linkonce discard
+	.seh_endproc
+	.section	.text$_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_,"x"
+	.linkonce discard
+	.globl	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+	.def	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_
+_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_:
+.LFB9704:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	%r8, 32(%rbp)
+	movq	32(%rbp), %rdx
+	movq	24(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE6appendEPKc
+	movq	%rax, %rcx
+	call	_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_
+	movq	%rax, %rdx
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EOS4_
+	movq	16(%rbp), %rax
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_,"x"
+	.linkonce discard
+	.globl	_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_
+	.def	_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_
+_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_:
+.LFB9705:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	16(%rbp), %rax
+	movzbl	(%rax), %edx
+	movq	24(%rbp), %rax
+	movzbl	(%rax), %eax
+	cmpb	%al, %dl
+	sete	%al
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZNSt15__new_allocatorIcED2Ev,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZNSt15__new_allocatorIcED2Ev
+	.def	_ZNSt15__new_allocatorIcED2Ev;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZNSt15__new_allocatorIcED2Ev
+_ZNSt15__new_allocatorIcED2Ev:
+.LFB9713:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	nop
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_
+	.def	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_
+_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_:
+.LFB9744:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	16(%rbp), %rax
+	movq	24(%rbp), %rdx
+	movq	%rdx, (%rax)
+	nop
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section	.text$_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev
+	.def	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev
+_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev:
+.LFB9747:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$32, %rsp
+	.seh_stackalloc	32
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	16(%rbp), %rax
+	movq	(%rax), %rax
+	testq	%rax, %rax
+	je	.L93
+	movq	16(%rbp), %rax
+	movq	(%rax), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_disposeEv
+.L93:
+	nop
+	addq	$32, %rsp
+	popq	%rbp
+	ret
+	.seh_handler	__gxx_personality_seh0, @unwind, @except
+	.seh_handlerdata
+.LLSDA9747:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 .LLSDACSE9747-.LLSDACSB9747
+.LLSDACSB9747:
+.LLSDACSE9747:
+	.section	.text$_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev,"x"
+	.linkonce discard
+	.seh_endproc
+	.section	.text$_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag,"x"
+	.linkonce discard
+	.align 2
+	.globl	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag;	.scl	2;	.type	32;	.endef
+	.seh_proc	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag:
+.LFB9741:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
+	subq	$96, %rsp
+	.seh_stackalloc	96
+	.seh_endprologue
+	movq	%rcx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	movq	%r8, 32(%rbp)
+	movq	24(%rbp), %rax
+	movq	%rax, -56(%rbp)
+	movq	32(%rbp), %rax
+	movq	%rax, -8(%rbp)
+	nop
+	movq	-56(%rbp), %rax
+	movq	%rax, -16(%rbp)
+	movq	-8(%rbp), %rax
+	movq	%rax, -24(%rbp)
+	movq	-24(%rbp), %rax
+	subq	-16(%rbp), %rax
+	nop
+	movq	%rax, -40(%rbp)
+	movq	-40(%rbp), %rax
+	cmpq	$15, %rax
+	jbe	.L98
+	leaq	-40(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movl	$0, %r8d
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm
+	movq	%rax, %rdx
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7_M_dataEPc
+	movq	-40(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE11_M_capacityEm
+	jmp	.L99
+.L98:
+	movq	16(%rbp), %rax
+	movq	%rax, -32(%rbp)
+	nop
+.L99:
+	movq	16(%rbp), %rdx
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardC1EPS4_
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7_M_dataEv
+	movq	%rax, %rcx
+	movq	32(%rbp), %rdx
+	movq	24(%rbp), %rax
+	movq	%rdx, %r8
+	movq	%rax, %rdx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_S_copy_charsEPcPKcS7_
+	movq	$0, -48(%rbp)
+	movq	-40(%rbp), %rdx
+	movq	16(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_M_set_lengthEm
+	leaq	-48(%rbp), %rax
+	movq	%rax, %rcx
+	call	_ZZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tagEN6_GuardD1Ev
+	nop
+	addq	$96, %rsp
+	popq	%rbp
+	ret
+	.seh_endproc
+	.section .rdata,"dr"
+_ZNSt8__detail30__integer_to_chars_is_unsignedIjEE:
+	.byte	1
+_ZNSt8__detail30__integer_to_chars_is_unsignedImEE:
+	.byte	1
+_ZNSt8__detail30__integer_to_chars_is_unsignedIyEE:
+	.byte	1
+_ZSt12__is_ratio_vISt5ratioILl1ELl1000000000EEE:
+	.byte	1
+_ZSt12__is_ratio_vISt5ratioILl1ELl1EEE:
+	.byte	1
+_ZSt12__is_ratio_vISt5ratioILl1000000000ELl1EEE:
+	.byte	1
+	.ident	"GCC: (GNU) 13.3.0"
+	.def	strlen;	.scl	2;	.type	32;	.endef
+	.def	_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv;	.scl	2;	.type	32;	.endef
+	.def	exit;	.scl	2;	.type	32;	.endef
+	.def	fread;	.scl	2;	.type	32;	.endef
+	.def	fopen;	.scl	2;	.type	32;	.endef
+	.def	sq_compile;	.scl	2;	.type	32;	.endef
+	.def	fclose;	.scl	2;	.type	32;	.endef
+	.def	sq_pushroottable;	.scl	2;	.type	32;	.endef
+	.def	sq_call;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev;	.scl	2;	.type	32;	.endef
+	.def	_Unwind_Resume;	.scl	2;	.type	32;	.endef
+	.def	sq_getstring;	.scl	2;	.type	32;	.endef
+	.def	sq_pushstring;	.scl	2;	.type	32;	.endef
+	.def	sq_newclosure;	.scl	2;	.type	32;	.endef
+	.def	sq_newslot;	.scl	2;	.type	32;	.endef
+	.def	sq_pop;	.scl	2;	.type	32;	.endef
+	.def	sq_open;	.scl	2;	.type	32;	.endef
+	.def	sq_close;	.scl	2;	.type	32;	.endef
+	.def	sq_get;	.scl	2;	.type	32;	.endef
+	.def	_ZN5ImGui5BeginEPKcPbi;	.scl	2;	.type	32;	.endef
+	.def	_ZN5ImGui4TextEPKcz;	.scl	2;	.type	32;	.endef
+	.def	_ZN5ImGui3EndEv;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE6insertEmPKc;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EOS4_;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_M_local_dataEv;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderC1EPcRKS3_;	.scl	2;	.type	32;	.endef
+	.def	_ZSt19__throw_logic_errorPKc;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE6appendEPKc;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_disposeEv;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7_M_dataEPc;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE11_M_capacityEm;	.scl	2;	.type	32;	.endef
+	.def	_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7_M_dataEv;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_S_copy_charsEPcPKcS7_;	.scl	2;	.type	32;	.endef
+	.def	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE13_M_set_lengthEm;	.scl	2;	.type	32;	.endef

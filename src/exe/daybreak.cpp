@@ -6,15 +6,6 @@ Daybreak::Daybreak() {
   this->si.cb = sizeof(this->si);
 }
 
-void Daybreak::debug_msg(std::string msg) {
-  if (DLL_DEBUG) printf("[DEBUG] %s\n", msg.c_str());
-}
-
-void Daybreak::die(std::string msg) {
-  printf("[ERROR] %s\n", msg.c_str());
-  exit(1);
-}
-
 int Daybreak::find_melty() {
   HANDLE proc_snapshot;
   PROCESSENTRY32  proc_melty;
@@ -57,13 +48,11 @@ void Daybreak::spawn_process(const char *path) {
 
   // MBAA.exe needs to be created on a suspended thread,
   // so the skip_config injection will function correctly.
-  res = CreateProcessA((LPSTR)path, NULL, NULL, NULL, TRUE, CREATE_SUSPENDED, NULL, NULL, &this->si, &this->pi);
+  res = CreateProcessA((LPSTR)path, NULL, NULL, NULL, TRUE,
+                       CREATE_SUSPENDED, NULL, NULL, &this->si, &this->pi);
 
   if (!res) {
-    char err[50];
-    sprintf(err, "Could not start %s\n", path);
-    MessageBox(NULL, err, "Error!", MB_OK);
-    exit(1);
+    gui_error("Could not start " + std::string(path) + "\n");
   }
 }
 
@@ -87,7 +76,8 @@ void Daybreak::inject(std::string dll_path) {
 
   WaitForSingleObject(melty_thread, INFINITE);
 
-  debug_msg("hProcess: " + std::to_string((int)this->pi.hProcess) + "\nbuffer: " + std::to_string((int)buffer) + "\n");
+  debug_msg("hProcess: " + std::to_string((int)this->pi.hProcess));
+  debug_msg("buffer: " + std::to_string((int)buffer) + "\n");
   CloseHandle(melty_thread);
 }
 
