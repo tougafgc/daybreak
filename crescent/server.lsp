@@ -18,6 +18,7 @@
 ;;; GLOBAL VARIABLES
 (define *server* 'NO-SERVER)
 (define *conn*   'NO-CONNECTION)
+(define *server-status* nil)
 
 ;;; FORMATTING FUNCTIONS
 (define (to-hex num)
@@ -37,29 +38,25 @@
 
 ;;; SERVER FUNCTIONS
 (define (start-server)
+  (setq *server-status* true)
   (setq *server* (net-listen 25565 "localhost"))
   (setq *conn*   (net-accept *server*))
   (while (not (net-error))
     (net-receive *conn* buffer 1024 "\n")
     (set 'res (catch (eval-string buffer MAIN (last-error))))
     (if (last-error) (set 'res (last (last-error))))
-    (net-send *conn* (append (string res) "\n"))))
+    (net-send *conn* (append (string res) "\n")))
+  (setq *server-status* nil))
 
 (define (stop-server)
   (println "Shutting down...")
   (net-send *conn* "Shutting down...\n")
   (net-close *server*)
-  (exit 0))
+  (setq *server-status nil))
 
 ;;; KEYBOARD FUNCTIONS
 (define (debug-msg str)
   (MessageBoxA 0 str "newLISP Debug" 0))
 
-(define (handle-controller-menu)
-  (debug-msg "CTRL + K pressed!"));
-
 ;; Automatically start the server on startup.
-;; TODO - if the server shuts down, any key press
-;; detected by the keyboard thread in C++ land
-;; will crash the game.
 (start-server)
