@@ -1,0 +1,6 @@
+[submodule "lib/squirrel"]
+	path = lib/squirrel
+	url = https://github.com/albertodemichelis/squirrel
+[submodule "lib/imgui"]
+	path = lib/imgui
+	url = https://github.com/ocornut/imgui
