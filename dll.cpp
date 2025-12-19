@@ -101,7 +101,7 @@ DWORD WINAPI keyboard_wrapper(LPVOID hmodule) {
 HRESULT APIENTRY hook_present(LPDIRECT3DDEVICE9 device, CONST RECT* src, CONST RECT* dest, HWND handle, CONST RGNDATA* region) {
   if (!device || !g_imgui_init_p) return orig_present_fx(device, src, dest, handle, region);
 
-  if (g_sq.IsScriptRunning()) g_sq.call("draw");
+  if (g_sq.script_active()) g_sq.call("draw");
   //if () g_lisp.evaluate("(draw)"); // TODO above
 
   if (g_in_menu_p) {
@@ -120,9 +120,9 @@ HRESULT APIENTRY hook_present(LPDIRECT3DDEVICE9 device, CONST RECT* src, CONST R
       ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
       g_lisp.draw_menu();
     }
-    else if (sq.show_menu()) {
+    else if (g_sq.show_menu()) {
       ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
-      sq.draw_menu();
+      g_sq.draw_menu();
     }
 
     ImGui::Render();

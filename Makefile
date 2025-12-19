@@ -43,11 +43,11 @@ init:
 
 out:
 	cp /mingw32/bin/libwinpthread-1.dll out/libwinpthread-1.dll
-	cp crescent/newlisp.dll  out/daybreak/newlisp.dll
-	cp crescent/newlisp.exe  out/daybreak/newlisp.exe
-	cp crescent/server.lsp   out/daybreak/server.lsp
-	cp crescent/client.lsp   out/daybreak/client.lsp
-	cp crescent/autorun.nut  out/daybreak/autorun.nut
+	cp crescent/newlisp.dll   out/daybreak/newlisp.dll
+	cp crescent/newlisp.exe   out/daybreak/newlisp.exe
+	cp crescent/server.lsp    out/daybreak/server.lsp
+	cp crescent/client.lsp    out/daybreak/client.lsp
+	cp crescent/autorun.crsc  out/daybreak/autorun.crsc
 	cp -r out/daybreak mbaa/daybreak
 	cp -r out/daybreak.exe mbaa/daybreak.exe
 	cp -r out/libwinpthread-1.dll mbaa/libwinpthread-1.dll
