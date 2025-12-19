@@ -1,0 +1,7 @@
+function draw() {
+  MessageBox("Hello from draw.", "Hi!");
+}
+
+function main() {
+  MessageBox("Hello from main.", "Hi!");
+}

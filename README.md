@@ -9,37 +9,12 @@ for recompilation.
 
 ## Installation
 
-### From Source
-
-*Please compile using MinGW32.*
-1. Download this repository
-2. `./download_deps.sh` to download MBAACC and newLISP
-3. `make first` to create Squirrel libraries and prepare Dear ImGui headers/sources (run `make all` on subsequent compilations)
-4. `make test` to launch Daybreak
-
-### From Releases Page
-
 Download `daybreak_vX.X.X.zip` and unzip it inside of a pre-existing MBAA folder. `daybreak.exe` and `libwinpthread-1.dll` 
 should be in the same folder as `MBAA.exe`, and everything else should be inside the `daybreak/` folder.
 
 ## Usage
 
-Either by double-clicking `daybreak.exe`, running it in the command line, or typing `make test` 
-MBAACC will automatically open with all modules preloaded.
-
-## Hacking & Modification
-
-This project is dependent only on MinGW32. No UCRT or MSVC binaries or tools are used in the
-development or compilation of Daybreak. Installing [MSYS2](https://www.msys2.org/)
-and the x86 gcc/g++ toolchain are the only requirements to get it working properly. 
-
-The newLISP server provided in Daybreak listens to `localhost:25565`, and is currently hardcoded to listen here. 
-Telnet works, but it does not support the pretty prompt that `server.lsp` provides. `client.lsp` and its compiled 
-cohort `client.exe` will automatically look for this address and connect to it.
-
-Daybreak looks for autorun.nut with functions draw() and main() to run Squirrel. Currently (as of 1 December 2025),
-Daybreak will load this file on startup, and will execute main() once in its own thread, and will execute draw()
-every time D3DX9->Present() is called. See `dll.cpp::sq_wrapper` and `dll.cpp::hkPresent`.
+Double-click `daybreak.exe`, or run it in the command line. 
 
 ## Extending Crescent STDLIB
 
@@ -48,10 +23,12 @@ of Melty Blood is running. Currently, the standard library, or the set of FFI fu
 and exported to Lisp/Squirrel, is quite small. `dll/crescent_stdlib.cpp` outlines how functions can be exported to 
 Lisp, and how to wrap them in a way that Squirrel scripts will recognize them.
 
+A more in-depth explanation on modifying Daybreak is given in HACKING.md. 
+
 ## Roadmap
 
-- Write text inside of Melty
-- Contain the newLISP client inside of Melty (open/closing by pressing a button combination)
+- Write text inside of Melty (not in ImGui)
+- In-game menu editing (vtables, etc)
 - Controller mappings
 - button test menu
 - netplay with GGPO

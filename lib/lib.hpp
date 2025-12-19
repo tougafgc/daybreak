@@ -15,21 +15,44 @@
 #include <tlhelp32.h>
 #include <psapi.h>
 #include <d3d9.h>
+#include <tchar.h>
 
 // CPP
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include <algorithm>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 // C
 #include <cstdint>
 #include <cstdio>
+#include <ctime>
+
 
 // Defines
 #define DAYBREAK_DEBUG 1
 #define DAYBREAK_ERROR 1
 #define IMGUI_HIDE false
 #define IMGUI_SHOW true
+
+// File system entry structure
+struct FileEntry {
+    std::string name;
+    bool isDirectory;
+
+    FileEntry(const std::string& n, bool isDir) : name(n), isDirectory(isDir) {}
+
+    // Sort directories first, then alphabetically
+    bool operator<(const FileEntry& other) const {
+        if (isDirectory != other.isDirectory)
+            return isDirectory;
+        return name < other.name;
+    }
+};
 
 inline void gui_error(std::string message) {
   MessageBox(NULL, message.c_str(), "[ERROR]", MB_OK);

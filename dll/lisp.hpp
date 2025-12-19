@@ -67,6 +67,13 @@ class LispController {
     // menu should be drawn.
     bool show_menu_p;
 
+    bool autoscroll;
+    int pos_imgui;
+    char input_buf[2048];
+    std::string buffer;
+
+    void eval_imgui(const std::string& cmd);
+    int handle_input_imgui(ImGuiInputTextCallbackData* data);
 };
 
 #endif // LISP_HPP_

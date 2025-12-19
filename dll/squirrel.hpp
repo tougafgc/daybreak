@@ -51,19 +51,34 @@ class SquirrelController {
     // Get the value to determine if the Dear ImGui menu should be shown
     bool show_menu();
 
+    bool script_active() const;
+
   private:
     HSQUIRRELVM vm;
     int stack_size;
     bool show_menu_p;
+    bool script_running_p;
+    char search_buf[256];
     std::string filename;
+    std::string selected_script;
+    std::string curr_status;
+    std::string pwd;
+    std::vector<FileEntry> files;
 
-  // Compile a given file to use its functions
+    // Compile a given file to use its functions
     // in MBAA's address space.
     SQInteger compile_file(HSQUIRRELVM vm, const char *filename);
 
     // Register all wrapped functions in crescent_stdlib.cpp
     // to be available in a loaded Squirrel script.
     void register_all(HSQUIRRELVM vm);
+
+    void append_status(const std::string& message);
+    void refresh_files();
+    void change_dir(const std::string& dir_name);
+    bool load_script(const std::string& filename);
+    std::string timestamp();
+    const std::string& get_script() const;
 };
 
 #endif // SQUIRREL_HPP_

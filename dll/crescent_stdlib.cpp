@@ -34,7 +34,7 @@ SQInteger sq_messagebox(HSQUIRRELVM vm) {
 }
 
 // General function that will register any Squirrel wrapper function. "name"
-// argument will be the function that a Squirrel script will recofnize.
+// argument will be the function that a Squirrel script will recognize.
 void register_fx(HSQUIRRELVM vm, SQInteger (*fx)(HSQUIRRELVM), const char *name) {
   sq_pushroottable(vm);
   sq_pushstring(vm, name, -1);
