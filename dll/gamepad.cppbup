@@ -1,0 +1,174 @@
+#include "gamepad.hpp"
+
+GamepadController::GamepadController() {
+    dinput = nullptr;
+    show_menu_p = false;
+    waiting_for_binding = false;
+    binding_target_player = -1;
+    binding_target_index = -1;
+    hwnd = nullptr; // store HWND for DirectInput
+}
+
+GamepadController::~GamepadController() {
+    release_all();
+    if (dinput) {
+        dinput->Release();
+        dinput = nullptr;
+    }
+}
+
+// Initialize DirectInput and enumerate controllers
+void GamepadController::init(HINSTANCE hInstance, HWND hwnd_param) {
+    hwnd = hwnd_param;
+
+    if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
+                                  (void**)&dinput, nullptr))) {
+        gui_error("Failed to initialize DirectInput");
+        return;
+    }
+
+    enumerate_controllers();
+}
+
+// Enumerate all attached game controllers
+void GamepadController::enumerate_controllers() {
+    controllers.clear();
+
+    HRESULT hr = dinput->EnumDevices(DI8DEVCLASS_GAMECTRL,
+                                     GamepadController::EnumDevicesCallback,
+                                     this,
+                                     DIEDFL_ATTACHEDONLY);
+    if (FAILED(hr)) {
+        gui_error("Failed to enumerate controllers");
+    }
+}
+
+// Static callback for DirectInput enumeration
+BOOL CALLBACK GamepadController::EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef) {
+    GamepadController* self = reinterpret_cast<GamepadController*>(pvRef);
+    LPDIRECTINPUTDEVICE8 dev = nullptr;
+
+    if (SUCCEEDED(self->dinput->CreateDevice(lpddi->guidInstance, &dev, nullptr))) {
+        dev->SetDataFormat(&c_dfDIJoystick2);
+        dev->SetCooperativeLevel(self->hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+        dev->Acquire();
+
+        ControllerBinding binding;
+        binding.device = dev;
+        binding.name = lpddi->tszProductName; // safe; always non-null
+        binding.playerId = 0;                  // not assigned yet
+        binding.buttons = {};                  // start empty
+
+        self->controllers.push_back(binding);
+    }
+
+    return DIENUM_CONTINUE;
+}
+
+// Toggle menu
+void GamepadController::toggle_menu() { show_menu_p = !show_menu_p; }
+void GamepadController::toggle_menu(bool state) { show_menu_p = state; }
+bool GamepadController::show_menu() const { return show_menu_p; }
+
+// Poll input for binding or testing
+void GamepadController::poll_input() {
+    for (auto& c : controllers) {
+        if (!c.device) continue;
+
+        DIJOYSTATE2 state;
+        if (SUCCEEDED(c.device->Poll()) &&
+            SUCCEEDED(c.device->GetDeviceState(sizeof(DIJOYSTATE2), &state))) {
+
+            // Handle binding
+            if (waiting_for_binding && c.playerId == binding_target_player) {
+                for (size_t i = 0; i < 32; ++i) {
+                    if (state.rgbButtons[i] & 0x80) {
+                        bind_button(binding_target_player, binding_target_index, (int)i);
+                        waiting_for_binding = false;
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            c.device->Acquire();
+        }
+    }
+}
+
+// Assign a button binding to a player
+void GamepadController::bind_button(int playerId, int buttonIndex, int diButton) {
+    for (auto& c : controllers) {
+        if (c.playerId == playerId && buttonIndex < (int)c.buttons.size()) {
+            c.buttons[buttonIndex].buttonIndex = diButton;
+            c.buttons[buttonIndex].bound = true;
+        }
+    }
+}
+
+// Draw the ImGui menu
+void GamepadController::draw_menu() {
+    ImGui::Begin("Gamepad Configuration", nullptr);
+
+    draw_binding_menu();
+    draw_test_window();
+
+    ImGui::End();
+}
+
+// Draw the binding UI
+void GamepadController::draw_binding_menu() {
+    ImGui::Text("Controller Bindings:");
+    for (auto& c : controllers) {
+        if (c.playerId == 0) continue; // skip unassigned
+        ImGui::Text("%s (Player %d)", c.name.c_str(), c.playerId);
+        for (size_t i = 0; i < c.buttons.size(); ++i) {
+            auto& b = c.buttons[i];
+            std::string label = b.bound ? "Bound: " + std::to_string(b.buttonIndex) : "Bind " + b.action;
+            if (ImGui::Button(label.c_str())) {
+                waiting_for_binding = true;
+                binding_target_player = c.playerId;
+                binding_target_index = (int)i;
+            }
+        }
+    }
+}
+
+// Draw live controller test
+void GamepadController::draw_test_window() {
+    ImGui::Text("Controller Test:");
+    for (auto& c : controllers) {
+        if (!c.device || c.playerId == 0) continue;
+
+        DIJOYSTATE2 state;
+        if (SUCCEEDED(c.device->Poll()) &&
+            SUCCEEDED(c.device->GetDeviceState(sizeof(DIJOYSTATE2), &state))) {
+
+            ImGui::Text("%s (Player %d)", c.name.c_str(), c.playerId);
+            for (auto& b : c.buttons) {
+                bool pressed = (state.rgbButtons[b.buttonIndex] & 0x80) != 0;
+                ImGui::Text("%s: %s", b.action.c_str(), pressed ? "Pressed" : "Released");
+            }
+            ImGui::Text("Left Stick:  (%.2f, %.2f)", state.lX / 32767.f, state.lY / 32767.f);
+            ImGui::Text("Right Stick: (%.2f, %.2f)", state.lRx / 32767.f, state.lRy / 32767.f);
+        }
+    }
+}
+
+// Acquire all controllers
+void GamepadController::acquire_all() {
+    for (auto& c : controllers) {
+        if (c.device) c.device->Acquire();
+    }
+}
+
+// Release all controllers
+void GamepadController::release_all() {
+    for (auto& c : controllers) {
+        if (c.device) {
+            c.device->Unacquire();
+            c.device->Release();
+            c.device = nullptr;
+        }
+    }
+}

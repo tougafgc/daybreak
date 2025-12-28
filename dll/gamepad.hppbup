@@ -1,0 +1,72 @@
+#ifndef GAMEPAD_HPP_
+#define GAMEPAD_HPP_
+
+#include "../lib/lib.hpp"
+#include "../lib/imgui/imgui.h"
+#include "../lib/imgui/imgui_impl_dx9.h"
+#include "../lib/imgui/imgui_impl_win32.h"
+#include <dinput.h>
+#include <vector>
+#include <string>
+
+struct ButtonBinding {
+    std::string action;  // e.g., "P1 Light Punch"
+    int buttonIndex;     // DInput button index (0-31)
+    bool bound;          // whether this button is bound
+};
+
+struct ControllerBinding {
+    LPDIRECTINPUTDEVICE8 device;        // DirectInput device pointer
+    std::string name;                   // controller name
+    int playerId;                        // 1 = P1, 2 = P2, 0 = unassigned
+    std::vector<ButtonBinding> buttons; // button bindings
+};
+
+class GamepadController {
+public:
+    GamepadController();
+    ~GamepadController();
+
+    // Initialize DirectInput and enumerate controllers
+    void init(HINSTANCE hInstance, HWND hwnd);
+
+    // Toggle menu visibility
+    void toggle_menu();
+    void toggle_menu(bool state);
+    bool show_menu() const;
+
+    // Poll controllers for input (binding/test)
+    void poll_input();
+
+    // Draw ImGui menu for configuration
+    void draw_menu();
+
+private:
+    LPDIRECTINPUT8 dinput;
+    HWND hwnd; // store the window handle for SetCooperativeLevel
+    std::vector<ControllerBinding> controllers;
+
+    bool show_menu_p;
+    bool waiting_for_binding;
+    int binding_target_player;
+    int binding_target_index;
+
+    // Enumerate controllers attached to the system
+    void enumerate_controllers();
+
+    // Bind a button to a player
+    void bind_button(int playerId, int buttonIndex, int diButton);
+
+    // ImGui helpers
+    void draw_binding_menu();
+    void draw_test_window();
+
+    // Acquire and release controllers
+    void acquire_all();
+    void release_all();
+
+    // Static callback for DirectInput enumeration
+    static BOOL CALLBACK EnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+};
+
+#endif // GAMEPAD_HPP_
