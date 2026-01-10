@@ -73,5 +73,5 @@ $(EXE_OUT): $(EXE_OBJS)
 $(DLL_OUT): $(DLL_OBJS)  $(IMGUI_OBJS)
 	$(CXX) $^ -o $@ $(DLL_FLAGS)
 
-%.o: %.cpp $(EXE_FILES) $(DLL_FILES) $(IMGUI_FILES)
+%.o: %.cpp
 	$(CXX) -c $(CPPFLAGS) $< -o $@

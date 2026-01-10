@@ -7,7 +7,7 @@ BOOL CALLBACK callback(const DIDEVICEINSTANCE *dinst, VOID *context) {
     case DI8DEVTYPE_KEYBOARD:
     case DI8DEVTYPE_JOYSTICK:
     case DI8DEVTYPE_GAMEPAD:
-      gamepad->add_controller({ dinst->guidInstance, dinst->tszInstanceName, PlayerSide::MIDDLE });
+      gamepad->add_controller({ dinst->guidInstance, dinst->tszInstanceName, PlayerSide::MIDDLE, State::NONE });
       break;
     default:
       break;
@@ -31,46 +31,105 @@ void GamepadController::init(HINSTANCE hinst) {
   connected.clear();
   res = dinput->EnumDevices(DI8DEVCLASS_ALL, callback, this, DIEDFL_ATTACHEDONLY);
   if (FAILED(res)) gui_error("Cannot enumerate devices!");
+
+  left_free = true;
+  right_free = true;
+}
+
+void GamepadController::fsm(Userpad &pad) {
+  switch (pad.side) {
+    case PlayerSide::MIDDLE:
+      if (pad.pressed(KEY_LEFT) && left_free) {
+        pad.side = PlayerSide::LEFT;
+        left_free = false;
+      } else if (pad.pressed(KEY_RIGHT) && right_free) {
+        pad.side = PlayerSide::RIGHT;
+        right_free = false;
+      }
+      break;
+    case PlayerSide::LEFT:
+    case PlayerSide::RIGHT:
+      if (pad.state == State::MAPPING) {
+        if (pad.pressed(KEY_UP)) {
+          if (pad.idx == -1) pad.state = State::NONE;
+          else if (pad.idx == 0) {
+            pad.state = State::NONE;
+            pad.idx--;
+          } else if (pad.idx > 0) pad.idx--;
+        }
+
+        else if (pad.pressed(KEY_DOWN)) {
+          if (pad.idx < 7) pad.idx++;
+        }
+      }
+
+      else if (pad.state == State::NONE) {
+        if (pad.pressed(KEY_DOWN) && pad.idx == -1) {
+          pad.state = State::MAPPING;
+        }
+
+        //else if (pad.pressed(KEY_UP) && pad.idx == -1) {
+          // testing/mapping menu
+        //}
+
+        else if (pad.pressed(KEY_RIGHT) && pad.side == PlayerSide::LEFT) {
+          left_free = true;
+          pad.side = PlayerSide::MIDDLE;
+        }
+
+        else if (pad.pressed(KEY_LEFT) && pad.side == PlayerSide::RIGHT) {
+          right_free = true;
+          pad.side = PlayerSide::MIDDLE;
+        }
+
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+void GamepadController::draw_side(std::optional<Userpad *> pad, int offset) {
+  Userpad *side = *pad;
+
+  ImGui::SameLine(offset);
+  ImGui::Text(side->name.c_str());
+
+  if (side->state == State::MAPPING) {
+    std::vector<std::string> options = {"A", "B", "C", "D", "E", "Start", "FN1", "FN2"};
+
+    if (side->side == PlayerSide::RIGHT) offset -= 150;
+    for (unsigned int i = 0; i < options.size(); i++) {
+      ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
+      ImGui::Selectable(options.at(i).c_str(), (int)i == side->idx, 0, ImVec2(200.f, 0.f));
+    }
+
+    ImGui::Text("%d", side->idx);
+
+  } else if (side->state == State::TESTING) {
+    ImGui::Text("Testing");
+  }
 }
 
 void GamepadController::draw_menu() {
+  std::optional<Userpad *> left_pad = std::nullopt;
+  std::optional<Userpad *> right_pad = std::nullopt;
+
   ImGui::Begin("Controller Menu", nullptr);
 
-  // keyboard
-  Userpad &kb = connected.at(0);
-
-  if (kb.side == MIDDLE) {
-    if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow) && !leftSide.has_value()) {
-      kb.side = PlayerSide::LEFT;
-      leftSide = kb;
-    } else if (ImGui::IsKeyPressed(ImGuiKey_RightArrow) && !rightSide.has_value()) {
-      kb.side = PlayerSide::RIGHT;
-      rightSide = kb;
-    }
-  } else {
-    if (ImGui::IsKeyPressed(ImGuiKey_UpArrow)) {
-      if (connected.at(0).side == PlayerSide::LEFT) {
-        leftSide = std::nullopt;
-      } else if (connected.at(0).side == PlayerSide::RIGHT) {
-        rightSide = std::nullopt;
-      }
-
-      connected.at(0).side = PlayerSide::MIDDLE;
-    } else if (ImGui::IsKeyPressed(ImGuiKey_DownArrow)) {
-      // controller binding menu
-    }
+  for (auto& pad : connected) {
+    fsm(pad);
   }
-
-  // process controllers here
 
   if (connected.size() == 0) {
     ImGui::Text("No devices connected...");
-  }
-  else {
+  } else {
     int middle_amnt = 0;
     for (unsigned int i = 0; i < connected.size(); i++) {
       Userpad curr = connected.at(i);
       if (curr.side != MIDDLE) {
+        if (curr.side == PlayerSide::LEFT) left_pad = &curr;
+        else if (curr.side == PlayerSide::RIGHT) right_pad = &curr;
         continue;
       }
 
@@ -85,17 +144,10 @@ void GamepadController::draw_menu() {
     }
 
     ImGui::Separator();
-    if (leftSide.has_value()) {
-      ImGui::SameLine(0);
-      ImGui::Text(leftSide->name.c_str());
-    }
-
-    if (rightSide.has_value()) {
-      ImGui::SameLine(ImGui::GetWindowSize().x - ImGui::CalcTextSize(rightSide->name.c_str()).x - 10);
-      ImGui::Text(rightSide->name.c_str());
-    }
+    if (left_pad.has_value()) draw_side(left_pad, 0);
+    if (right_pad.has_value()) draw_side(right_pad, ImGui::GetWindowSize().x - ImGui::CalcTextSize((*right_pad)->name.c_str()).x - 10);
+    ImGui::End();
   }
-  ImGui::End();
 }
 
 void GamepadController::toggle_menu() {

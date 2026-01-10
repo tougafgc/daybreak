@@ -53,6 +53,46 @@ namespace hook {
     return false;
   }
 
+  namespace melty {
+    BattleScene_t orig_battlescene_fx = nullptr;
+
+    void __stdcall draw_battlescene(int gs) {
+
+      // GAME DOES NOT RUN PRESENT() DURING GAMEPLAY
+      if (runtime::g_in_menu_p) {
+        ImGui_ImplDX9_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
+
+        if (runtime::gamepad.show_menu()) {
+          ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
+          runtime::gamepad.draw_menu();
+        }
+        else if (runtime::g_lisp.show_menu()) {
+          ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
+          runtime::g_lisp.draw_menu();
+        }
+        else if (runtime::g_sq.show_menu()) {
+          ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
+          runtime::g_sq.draw_menu();
+        }
+
+        ImGui::Render();
+        ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
+        for (auto& pad : runtime::gamepad.connected) {
+          pad.save_previous_keys();
+        }
+      }
+
+      if (runtime::g_sq.script_active()) runtime::g_sq.call("draw");
+      //if () g_lisp.evaluate("(draw)"); // TODO above
+
+      orig_battlescene_fx(gs);
+    }
+  }
 
   namespace di8 {
     DI8Create_t orig_create_fx = nullptr;
@@ -65,6 +105,16 @@ namespace hook {
       if (FAILED(hr)) return hr;
 
       if (runtime::g_in_menu_p && cbData == 256) {
+        DIDEVICEINSTANCE di = {};
+        di.dwSize = sizeof(di);
+        if (runtime::gamepad.show_menu() && SUCCEEDED(device->GetDeviceInfo(&di))) {
+          for (auto& item : runtime::gamepad.connected) {
+            if (item.name == std::string(di.tszInstanceName)) {
+              item.set_directions(di, lpData);
+            }
+          }
+        }
+
         memset(lpData, 0, cbData);
       }
 
@@ -120,25 +170,7 @@ namespace hook {
       if (!device) return hook::d3d::orig_present_fx(device, src, dest, handle, region);
       if (device->TestCooperativeLevel() != D3D_OK) return hook::d3d::orig_present_fx(device, src, dest, handle, region);
 
-      if (device->BeginScene() >= 0)
-      {
-        device->EndScene();
-      }
-
-      return hook::d3d::orig_present_fx(device, src, dest, handle, region);
-    }
-
-    HRESULT APIENTRY endscene(LPDIRECT3DDEVICE9 device) {
-      if (!hook::d3d::orig_endscene_fx) return D3D_OK;
-      if (!device) return hook::d3d::orig_endscene_fx(device);
-
-      D3DVIEWPORT9 viewport;
-      device->GetViewport ( &viewport );
-      if ( viewport.Width != *((uint32_t *)0x54D048)) return hook::d3d::orig_endscene_fx(device);
-
-      if (runtime::g_sq.script_active()) runtime::g_sq.call("draw");
-      //if () g_lisp.evaluate("(draw)"); // TODO above
-
+      // GAME DOES NOT RUN PRESENT() DURING GAMEPLAY
       if (runtime::g_in_menu_p) {
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
@@ -161,7 +193,21 @@ namespace hook {
 
         ImGui::Render();
         ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
+        for (auto& pad : runtime::gamepad.connected) {
+          pad.save_previous_keys();
+        }
       }
+
+      if (runtime::g_sq.script_active()) runtime::g_sq.call("draw");
+      //if () g_lisp.evaluate("(draw)"); // TODO above
+
+      return hook::d3d::orig_present_fx(device, src, dest, handle, region);
+    }
+
+    HRESULT APIENTRY endscene(LPDIRECT3DDEVICE9 device) {
+      if (!hook::d3d::orig_endscene_fx) return D3D_OK;
+      if (!device) return hook::d3d::orig_endscene_fx(device);
 
       return hook::d3d::orig_endscene_fx(device);
     }

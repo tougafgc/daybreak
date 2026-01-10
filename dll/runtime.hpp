@@ -25,9 +25,12 @@ typedef HRESULT(WINAPI* DI8Create_t)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOW
 typedef HRESULT(WINAPI* DI8CreateDevice_t)(IDirectInput8*, REFGUID, IDirectInputDevice8**, LPUNKNOWN);
 typedef HRESULT(WINAPI* DI8GetDeviceState_t)(IDirectInputDevice8*, DWORD, LPVOID);
 typedef HRESULT(WINAPI *DI8GetDeviceData_t)(IDirectInputDevice8*, DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD);
+
 typedef HRESULT(APIENTRY* Present_t)(LPDIRECT3DDEVICE9, CONST RECT*, CONST RECT*, HWND, CONST RGNDATA*);
 typedef HRESULT(APIENTRY* Reset_t)(LPDIRECT3DDEVICE9, D3DPRESENT_PARAMETERS*);
 typedef HRESULT(APIENTRY* EndScene_t)(LPDIRECT3DDEVICE9);
+
+typedef void (__stdcall *BattleScene_t)(int gs);
 
 namespace runtime {
     extern bool g_controller_menu_p;
@@ -43,6 +46,12 @@ namespace hook {
   //
   bool iat(HMODULE, const char*, const char*, void*, void**);
 
+  namespace melty {
+    extern BattleScene_t orig_battlescene_fx;
+
+    void __stdcall draw_battlescene(int gs);
+  }
+
   //
   template <typename DEVICE_T, typename FUNC_T>
   void patch_fx(DEVICE_T device, int idx, void *callback, FUNC_T &orig) {
@@ -55,6 +64,17 @@ namespace hook {
     VirtualProtect(&vtable[idx], sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect);
     vtable[idx] = callback;
     VirtualProtect(&vtable[idx], sizeof(void*), oldProtect, &oldProtect);
+  }
+
+  template <typename FX_T>
+  void patch_table(void *table, int idx, void *callback, FX_T &orig) {
+    void **vtable = *(void ***)(table);
+    orig = (FX_T)vtable[idx];
+
+    DWORD old;
+    VirtualProtect(&vtable[idx], sizeof(void *), PAGE_EXECUTE_READWRITE, &old);
+    vtable[idx] = callback;
+    VirtualProtect(&vtable[idx], sizeof(void*), old, &old);
   }
 
   namespace di8 {
