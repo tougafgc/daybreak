@@ -65,38 +65,23 @@ DWORD WINAPI dxd_wrapper(LPVOID param) {
   while (*(LPDIRECT3DDEVICE9*)0x76E7D4 == nullptr) Sleep(100);
   LPDIRECT3DDEVICE9 device = *(LPDIRECT3DDEVICE9*)(0x0076E7D4);
 
-  if (!hook::d3d::orig_present_fx) {
-    hook::patch_fx<LPDIRECT3DDEVICE9, Present_t>(device, DXD_PRESENT, (void *)hook::d3d::present, hook::d3d::orig_present_fx);
-  }
-
-  if (!hook::d3d::orig_endscene_fx) {
-    hook::patch_fx<LPDIRECT3DDEVICE9, EndScene_t>(device, DXD_ENDSCENE, (void *)hook::d3d::endscene, hook::d3d::orig_endscene_fx);
-  }
-
-  if (!hook::d3d::orig_reset_fx) {
-    hook::patch_fx<LPDIRECT3DDEVICE9, Reset_t>(device, DXD_RESET, (void *)hook::d3d::reset, hook::d3d::orig_reset_fx);
-  }
-
-  //if (!hook::melty::orig_battlescene_fx) {
-  //  hook::patch_table<BattleScene_t>((void *)0x00535BD4, 4, (void *)hook::melty::battlescene, hook::melty::orig_battlescene_fx);
-  //}
-
+  DWORD fx = (*(DWORD **)device)[17];
   auto *trampoline = (uint8_t *)VirtualAlloc(nullptr, 5 + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-  memcpy(trampoline, (void *)0x00423860, 5);
+  memcpy(trampoline, (void *)fx, 5);
 
-  uintptr_t return_addr = 0x00423860 + 5;
+  uintptr_t return_addr = fx + 5;
   trampoline[5] = 0xE9;
   *(uintptr_t *)(trampoline + 5 + 1) = return_addr - (uintptr_t)(trampoline + 5) - 5;
 
-  hook::melty::orig_battlescene_fx = (BattleScene_t)trampoline;
+  hook::d3d::orig_present_fx = (Present_t)trampoline;
 
   DWORD old;
-  VirtualProtect((void *)0x00423860, 5, PAGE_EXECUTE_READWRITE, &old);
+  VirtualProtect((void *)fx, 5, PAGE_EXECUTE_READWRITE, &old);
 
-  *(uint8_t *)0x00423860 = 0xE9;
-  *(uintptr_t *)(0x00423860 + 1) = (uintptr_t)&hook::melty::draw_battlescene - 0x00423860 - 5;
+  *(uint8_t *)fx = 0xE9;
+  *(uintptr_t *)(fx + 1) = (uintptr_t)&hook::d3d::present - fx - 5;
 
-  VirtualProtect((void *)0x00423860, 5, old, &old);
+  VirtualProtect((void *)fx, 5, old, &old);
 
 
   // trampoline
