@@ -9,8 +9,8 @@
 ### Defines
 CXX       = g++ #i686-w64-mingw32-g++
 EXE_FLAGS = -static-libgcc -static-libstdc++
-DLL_FLAGS = -shared -static-libgcc -static-libstdc++ -Llib/squirrel/lib -lsquirrel -lsqstdlib -ld3d9 -ld3dx9 -lgdi32 -ldwmapi
-CPPFLAGS  = -Wall --std=c++17 -m32 -DWINDOWS
+DLL_FLAGS = -shared -static-libgcc -static-libstdc++ -Llib/squirrel/lib -lsquirrel -lsqstdlib -ld3d9 -ld3dx9 -lgdi32 -ldwmapi -ldinput8 -ldxguid
+CPPFLAGS  = -Wall --std=c++17 -m32 -DWINDOWS -g
 EXE_OUT   = out/daybreak.exe
 DLL_OUT   = out/daybreak/crescent.dll
 
@@ -62,7 +62,7 @@ update:
 
 clean:
 	rm -rf mbaa/daybreak mbaa/daybreak.exe
-	rm -rf out $(DLL_DIR)/*.o $(EXE_DIR)/*.o lib/imgui/*.o *.o
+	rm -rf out $(DLL_DIR)/*.o $(EXE_DIR)/*.o *.o
 
 ### Compilation and linking
 $(EXE_OUT): $(EXE_OBJS)
@@ -73,5 +73,5 @@ $(EXE_OUT): $(EXE_OBJS)
 $(DLL_OUT): $(DLL_OBJS)  $(IMGUI_OBJS)
 	$(CXX) $^ -o $@ $(DLL_FLAGS)
 
-%.o: %.cpp $(EXE_FILES) $(DLL_FILES) $(IMGUI_FILES)
+%.o: %.cpp
 	$(CXX) -c $(CPPFLAGS) $< -o $@

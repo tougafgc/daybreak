@@ -14,47 +14,9 @@
 #include "lib/imgui/imgui_impl_dx9.h"
 #include "lib/imgui/imgui_impl_win32.h"
 
-#include "dll/lisp.hpp"
-#include "dll/squirrel.hpp"
+#include "dll/runtime.hpp"
 
-// D3DX9 vtable indices
-#define DXD_RESET 16
-#define DXD_PRESENT 17
-#define DXD_ENDSCENE 42
-
-// Control macros
-#define DEBOUNCE_PER 50
-
-// Globals
-LispController g_lisp = LispController();
-SquirrelController g_sq = SquirrelController();
-
-bool g_controller_menu_p = false;
-bool g_in_menu_p = false;
-bool g_imgui_init_p = false;
-
-// D3DX9 Hook
-typedef HRESULT(APIENTRY* Present_t)(LPDIRECT3DDEVICE9, CONST RECT*, CONST RECT*, HWND, CONST RGNDATA*);
-typedef HRESULT(APIENTRY* Reset_t)(LPDIRECT3DDEVICE9, D3DPRESENT_PARAMETERS*);
-
-Reset_t orig_reset_fx = nullptr;
-Present_t orig_present_fx = nullptr;
-HWND g_mbaa_handle = nullptr;
-WNDPROC g_orig_wnd_proc = nullptr;
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND handle, UINT msg, WPARAM w_param, LPARAM l_param);
-LRESULT CALLBACK hook_wnd_proc(HWND handle, UINT msg, WPARAM w_param, LPARAM l_param) {
-  if (g_in_menu_p) {
-    ImGuiIO& io = ImGui::GetIO();
-    if (ImGui_ImplWin32_WndProcHandler(handle, msg, w_param, l_param))                      return TRUE;
-    if (io.WantCaptureMouse && (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST))               return TRUE;
-    if (io.WantCaptureKeyboard && (msg == WM_KEYDOWN || msg == WM_KEYUP || msg == WM_CHAR)) return TRUE;
-  }
-
-  return CallWindowProc(g_orig_wnd_proc, handle, msg, w_param, l_param);
-}
-
-// Keyboard
+#define DEBOUNCE_PER 100
 
 // Checks for either a single pressed key or a combination.
 // This is done by folding, where N arguments fill N patterns
@@ -65,109 +27,136 @@ bool keys_pressed(Key... key) {
   return ((GetAsyncKeyState(key) & 0x8000) && ...);
 }
 
-DWORD WINAPI keyboard_wrapper(LPVOID hmodule) {
+DWORD WINAPI keyboard_wrapper(LPVOID param) {
   while (true) {
     if (keys_pressed(VK_CONTROL, 'J')) { // CTRL+J Controller Menu
-      g_lisp.toggle_menu(IMGUI_HIDE);
-      g_sq.toggle_menu(IMGUI_HIDE);
-      g_controller_menu_p = !g_controller_menu_p;
+      Runtime::lisp.toggle_menu(IMGUI_HIDE);
+      Runtime::sq.toggle_menu(IMGUI_HIDE);
+      Runtime::gamepad.toggle_menu();
       Sleep(DEBOUNCE_PER);
     }
     else if (keys_pressed(VK_CONTROL, 'K')) { // CTRL+K Lisp Menu
-      g_lisp.toggle_menu();
-      g_sq.toggle_menu(IMGUI_HIDE);
-      g_controller_menu_p = false;
+      Runtime::lisp.toggle_menu();
+      Runtime::sq.toggle_menu(IMGUI_HIDE);
+      Runtime::gamepad.toggle_menu(IMGUI_HIDE);
       Sleep(DEBOUNCE_PER);
     }
     else if (keys_pressed(VK_CONTROL, 'L')) { // CTRL+L Squirrel Menu
-      g_lisp.toggle_menu(IMGUI_HIDE);
-      g_sq.toggle_menu();
-      g_controller_menu_p = false;
+      Runtime::lisp.toggle_menu(IMGUI_HIDE);
+      Runtime::sq.toggle_menu();
+      Runtime::gamepad.toggle_menu(IMGUI_HIDE);
       Sleep(DEBOUNCE_PER);
     }
     else if (keys_pressed(VK_CONTROL, 'F')) { // CTRL+F, force close all menus
-      g_lisp.toggle_menu(IMGUI_HIDE);
-      g_sq.toggle_menu(IMGUI_HIDE);
-      g_controller_menu_p = false;
+      Runtime::lisp.toggle_menu(IMGUI_HIDE);
+      Runtime::sq.toggle_menu(IMGUI_HIDE);
+      Runtime::gamepad.toggle_menu(IMGUI_HIDE);
     }
 
-    g_in_menu_p = (g_controller_menu_p || g_lisp.show_menu() || g_sq.show_menu());
+    Runtime::in_menu_p = (Runtime::gamepad.show_menu() || Runtime::lisp.show_menu() || Runtime::sq.show_menu());
 
     Sleep(100);
   }
 }
 
-// ImGui hooking
-HRESULT APIENTRY hook_present(LPDIRECT3DDEVICE9 device, CONST RECT* src, CONST RECT* dest, HWND handle, CONST RGNDATA* region) {
-  if (!device || !g_imgui_init_p) return orig_present_fx(device, src, dest, handle, region);
+  void tramp_single(uintptr_t epilogue_addr, void *callback) {
+    DWORD old;
+    VirtualProtect((void*)epilogue_addr, 6, PAGE_EXECUTE_READWRITE, &old);
 
-  if (g_sq.script_active()) g_sq.call("draw");
-  //if () g_lisp.evaluate("(draw)"); // TODO above
+    // JMP callback
+    *(uint8_t*)epilogue_addr = 0xE9;
+    *(uintptr_t*)(epilogue_addr + 1) = (uintptr_t)callback - (epilogue_addr + 5);
 
-  if (g_in_menu_p) {
-    ImGui_ImplDX9_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
-    ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
-
-    if (g_controller_menu_p) {
-      ImGui::Begin("Controller", nullptr, ImGuiWindowFlags_NoTitleBar);
-      ImGui::Text("Testing Controller Menu");
-      ImGui::End();
-    }
-    else if (g_lisp.show_menu()) {
-      ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
-      g_lisp.draw_menu();
-    }
-    else if (g_sq.show_menu()) {
-      ImGui::SetNextWindowSize(ImVec2(600, 385), ImGuiCond_FirstUseEver);
-      g_sq.draw_menu();
-    }
-
-    ImGui::Render();
-    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+    // NOP leftover byte (original instruction was 6 bytes)
+    *(uint8_t*)(epilogue_addr + 5) = 0x90;
+    VirtualProtect((void*)epilogue_addr, 6, old, &old);
   }
 
-  return orig_present_fx(device, src, dest, handle, region);
+extern "C" void test() {
+  for (auto& item : Runtime::gamepad.connected) {
+    if (Runtime::in_menu_p || Runtime::gamepad.left_free) {
+      *(volatile char *)0x00771398 = 0x00;
+      *(volatile char *)0x00771448 = 0x00;
+      *(volatile char *)0x0077146A &= 0xF0;
+      *(volatile char *)0x0077151A &= 0xF0;
+    }
+
+    if (Runtime::in_menu_p || Runtime::gamepad.right_free) {
+      *(volatile char *)0x007713C4 = 0x00;
+      *(volatile char *)0x00771496 &= 0xF0;
+    }
+
+    // only needs to set, reset is handled by the game
+    if (item.side != PlayerSide::MIDDLE && !Runtime::in_menu_p) {
+      char dir = item.current_direction();
+
+      if (item.side == PlayerSide::LEFT) {
+        *(volatile char *)0x00771398 = dir;
+//        *(volatile char *)0x00771448 = dir;
+
+        // Stage wants 0xf, so does main menu
+        *(volatile char *)0x0077146A = (*(volatile char *)0x0077146A & 0xF0) + dir;
+        *(volatile char *)0x0077151A = (*(volatile char *)0x0077146A & 0xF0) + dir;
+
+        for (int key = KEY_UP; key <= KEY_FN2; key++) {
+          Input *input = &item.keys.at(key);
+
+          if (input->pressed_p) input->set(0x01);
+        }
+      } else if (item.side == PlayerSide::RIGHT) {
+        *(volatile char *)0x007713C4 = dir;
+
+        // Stage wants 0xf, so does main menu
+        *(volatile char *)0x00771496 = (*(volatile char *)0x00771496 & 0xF0) + dir;
+
+        for (int key = KEY_UP; key <= KEY_FN2; key++) {
+          Input *input = &item.keys.at(key);
+
+          if (input->pressed_p) input->set(0x01);
+        }
+      }
+    }
+  }
 }
 
-HRESULT hook_reset(LPDIRECT3DDEVICE9 device, D3DPRESENT_PARAMETERS *pp) {
-  ImGui_ImplDX9_InvalidateDeviceObjects();
-  HRESULT res = orig_reset_fx(device, pp);
+__attribute__((naked)) void readcontrollerinputs() {
+  __asm__ __volatile__ (
+    "pushal\n\t"
+    "pushfl\n\t"
 
-  if (SUCCEEDED(res)) ImGui_ImplDX9_CreateDeviceObjects();
-  return res;
+    "call _test\n\t"
+
+    "popfl\n\t"
+    "popal\n\t"
+
+    "add $0x90, %esp\n\t"
+    "ret\n\t"
+  );
 }
 
+DWORD WINAPI dxd_wrapper(LPVOID param) {
+  HMODULE hmodule = static_cast<HMODULE>(param);
 
-template <typename DXD_FUNC_T>
-void hook_dxd_method(LPDIRECT3DDEVICE9 &device, int idx, void *callback, DXD_FUNC_T &orig) {
-  if (!device) return;
-
-  void** vtable = *(void***)(device);
-  orig = (DXD_FUNC_T)vtable[idx];
-
-  DWORD oldProtect;
-  VirtualProtect(&vtable[idx], sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect);
-  vtable[idx] = callback;
-  VirtualProtect(&vtable[idx], sizeof(void*), oldProtect, &oldProtect);
-}
-
-DWORD WINAPI dxd_wrapper(LPVOID hmodule) {
   while (*(LPDIRECT3DDEVICE9*)0x76E7D4 == nullptr) Sleep(100);
+  LPDIRECT3DDEVICE9 device = *(LPDIRECT3DDEVICE9*)(0x0076E7D4);
 
-  LPDIRECT3DDEVICE9 device = *(LPDIRECT3DDEVICE9*)(0x76E7D4);
-  if (!g_imgui_init_p) {
+  Hook::trampoline<LPDIRECT3DDEVICE9, D3DPresent_t>(device, 17, (void *)Hook::D3D::present, Hook::D3D::orig_present_fx);
+
+  tramp_single(0x0041F1A6, (void *)readcontrollerinputs);
+
+  if (!Runtime::imgui_init_p) {
     // Get window handle from swap chain
     IDirect3DSwapChain9* swap = nullptr;
     D3DPRESENT_PARAMETERS pp{};
     device->GetSwapChain(0, &swap);
     swap->GetPresentParameters(&pp);
-    g_mbaa_handle = pp.hDeviceWindow;
+    Runtime::mbaa_handle = pp.hDeviceWindow;
     swap->Release();
 
-    g_orig_wnd_proc = (WNDPROC)SetWindowLongPtr(g_mbaa_handle, GWLP_WNDPROC, (LONG_PTR)hook_wnd_proc);
+    // Needed for ImGui to take in keypresses
+    Hook::D3D::orig_wnd_proc = (WNDPROC)SetWindowLongPtr(Runtime::mbaa_handle, GWLP_WNDPROC, (LONG_PTR)Hook::D3D::wnd_proc);
+
+    Runtime::gamepad.init(hmodule);
 
     // Init ImGui
     IMGUI_CHECKVERSION();
@@ -177,37 +166,37 @@ DWORD WINAPI dxd_wrapper(LPVOID hmodule) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.IniFilename = nullptr;
 
-    ImGui_ImplWin32_Init(g_mbaa_handle);
+    ImGui_ImplWin32_Init(Runtime::mbaa_handle);
     ImGui_ImplDX9_Init(device);
 
-    g_imgui_init_p = true;
+    Runtime::imgui_init_p = true;
   }
 
-  hook_dxd_method<Present_t>(device, DXD_PRESENT, (void *)hook_present, orig_present_fx);
-  hook_dxd_method<Reset_t>(device, DXD_RESET, (void *)hook_reset, orig_reset_fx);
   return 0;
 }
 
+//DWORD WINAPI controller_wrapper(LPVOID) {}
+
 DWORD WINAPI server_wrapper(LPVOID param) {
-  LispController *obj = static_cast<LispController *>(param);
-  obj->init(L"daybreak\\newlisp.dll");
-  obj->load_file(std::string("daybreak/server.lsp"));
-  obj->start_server();
+  Runtime::lisp.init(L"daybreak\\newlisp.dll");
+  Runtime::lisp.load_file(std::string("daybreak/server.lsp"));
+  Runtime::lisp.start_server();
   return 0;
 }
 
 DWORD WINAPI sq_wrapper(LPVOID param) {
-  SquirrelController *obj = static_cast<SquirrelController *>(param);
-  obj->init("daybreak\\autorun.crsc");
-  obj->call("main");
+  Runtime::sq.init("daybreak\\autorun.crsc");
+  //Runtime::sq.call("main");
   return 0;
 }
 
 DWORD WINAPI daybreak_threads(LPVOID param) {
   HMODULE hmodule = static_cast<HMODULE>(param);
 
-  CreateThread(NULL, 0, server_wrapper, &g_lisp, 0, 0);
-  CreateThread(NULL, 0, sq_wrapper, &g_sq, 0, 0);
+  Hook::iat(GetModuleHandle(nullptr), "dinput8.dll", "DirectInput8Create", (void *)Hook::DI8::create, (void**)&Hook::DI8::orig_create_fx);
+
+  CreateThread(NULL, 0, server_wrapper, hmodule, 0, 0);
+  CreateThread(NULL, 0, sq_wrapper, hmodule, 0, 0);
   CreateThread(NULL, 0, keyboard_wrapper, hmodule, 0, 0);
   CreateThread(NULL, 0, dxd_wrapper, hmodule, 0, 0);
 
@@ -222,7 +211,7 @@ BOOL WINAPI DllMain(HMODULE hmodule, DWORD reason, LPVOID reserved) {
       break;
 
     case DLL_PROCESS_DETACH:
-      g_lisp.stop_server();
+      Runtime::lisp.stop_server();
       break;
   }
 

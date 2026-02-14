@@ -26,6 +26,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <regex>
 
 // C
 #include <cstdint>
